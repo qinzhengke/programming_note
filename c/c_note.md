@@ -41,3 +41,41 @@ B bs[2] =
   }
 }
 ```
+
+
+### 下采样拷贝时间
+下采样拷贝虽然点数少，但是需要多次拷贝操作，那么这种方式和全拷贝速度差异如何呢？
+```
+uint32_t W=640, H=480, WH=W*H;
+FILE *f = fopen("img","rb");
+uint8_t* buf = malloc(WH);
+fread(buf, WH, 1, f);
+
+int64_t t = cv::getTickCount();
+uint8_t * img = (uint8_t*) malloc(WH);
+memcpy(img, buf, WH);
+t = cv::getTickCount() - t;
+cout<<t/cv::getTickFrenquency()<<endl;
+
+t = cv::getTickCount();
+uint32_t sd=5, Wd=W/sd, Hd=H/sd;
+uint8_t *img_d = (uint8_t*)malloc(Wd*Hd);
+for(uint32_t r=0; r<Hd; r++)
+  for(uint32_t c=0; c<Wd; c++)
+    img_d[r*Wd+c] = buf[r*sd*W+c*sd];
+t = cv::getTickCount()-t;
+cout<<t/cv::getTickFrequency()<<endl;
+```
+PC上运行的结果
+
+Debug版本
+| sd | 1    | 2    | 3    | 4    | 5    | 6    |
+| t1 | 91.5 | 90.5 | 91.7 | 91.2 | 90.4 | 90.6 |
+| t2 | 840  | 219  | 102  | 60.2 | 39.1 | 27.6 |
+
+Release版本
+| sd | 1    | 2    | 3    | 4    | 5    | 6    |
+| t1 | 74.4 | 72.7 | 74.3 | 74.6 | 77.3 | 75.1 |
+| t2 | 158  | 62.6 | 30.5 | 18.5 | 12.3 | 8.96 |
+
+
