@@ -7,6 +7,7 @@ debug时间，2017-09-25 20:00-22：00
 然后仔细对比了一下，发现在VS下链接的OpenCV库文件是opencv_world310d.lib，并且运行的方式是DEBUG。
 然而在Creator中我链接的库是opencv_world310.lib，并且运行的方式是DEBUG。
 加上后缀"d"之后，终于可以运行了！或者将运行方式改成release，同样也可以运行！
+这个bug在之前的imread函数是没有问题的，这进一步搞混淆了！
 
 ```cpp
 void convert_bin_to_png(string in_path, string out_path)
@@ -25,5 +26,5 @@ void convert_bin_to_png(string in_path, string out_path)
 }
 ```
 
-**教训：**lib库的引用一定要**遵循规范**！debug版本的代码要引用debug版本的lib，release版本的代码要引用release版本的库。
+**教训：** lib库的引用一定要**遵循规范**！debug版本的代码要引用debug版本的lib，release版本的代码要引用release版本的库。
 举一反三，x64的编译方式用x64的库，x86的编译方式用x86的库，vc08，vc10，vc12的库最好也一致！
