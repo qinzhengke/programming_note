@@ -90,3 +90,70 @@ ARM
 | t1 | 644  | 654 | 652  | 645 | 670 | 685 |
 | t2 | 667  | 208 | 97.6 | 28.2 | 69.0 | 48.4 |
 
+
+### 图像浏览工具
+做图像算法的时候经常要处理图像buffer，就是最原始指针那种，因为程序运行在嵌入式平台，所以有的时候调试起来看图不是特别方便，很多时候我们从板子上存下来的图是原始的raw格式，或者我们想传入我们自己的图像进行测试，这时候就需要某种图像转换和浏览工具。
+
+下面是代码，其实思路很简单，使用opencv将raw格式的文件打开，然后转换成bmp，再使用bat调用图片浏览工具，实现双击就能浏览的效果。
+这里的bin格式是我自己定义的，bin表示单通道，bin3表示3通道，通常是BGR。
+代码中转换单通道的函数没有填写，这里只填写了3通道的。
+
+```cpp
+#include <iostream>
+#include <fstream>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+
+using namespace std;
+using namespace cv;
+typedef unsigned char uint8_t;
+typedef unsigned int uint32_t;
+
+#define PRINT_AND_RETURN(x) do{cout<<x<<endl; return 1;}while(0)
+#define PRINT_USAGE_AND_RETURN() PRINT_AND_RETURN("Usage: bin_viewer.exe <input file> <output file>")
+
+int convert_bin_to_bmp(string in_path, string out_path)
+{
+    return 0;
+}
+
+int convert_bin3_to_bmp(string in_path, string out_path)
+{
+    ifstream f;
+    f.open(in_path, ios::binary);
+    uint32_t W,H;
+    f.read((char*)&W, sizeof(uint32_t));
+    f.read((char*)&H, sizeof(uint32_t));
+    Mat save(H,W, CV_8UC3);
+    f.read((char*)save.data, 3*W*H);
+    imwrite(out_path, save);
+    return 0;
+}
+
+int main(char argc, char **argv)
+{
+    if(argc<3)
+        PRINT_USAGE_AND_RETURN();
+
+    string in_path = string(argv[1]);
+    if(in_path.substr(in_path.size()-3, 3) == "bin")
+        convert_bin_to_bmp(string(argv[1]), string(argv[2]));
+    else if(in_path.substr(in_path.size()-4, 4) == "bin3")
+        convert_bin3_to_bmp(string(argv[1]), string(argv[2]));
+    else
+        PRINT_AND_RETURN("only open bin or bin3 file!");
+
+    cout<<"done!"<<endl;
+    return 0;
+}
+
+```
+接下来就是编写bat文件，调用exe、传入参数并且调用图片浏览工具。
+其中%1就是传入的参数，对，没错，就是双击的文件的路径，不要怀疑，微软爸爸已经给你做好了！
+给bin文件和bin3文件选择默认的打开方式，设置成bat文件，对，就是右键选择默认程序！
+ImageGlass是一个网上下载的轻量级的浏览工具。
+
+```shell
+bin_viewer.exe %1 out.bmp
+"C:\Program Files\ImageGlass\ImageGlass.exe" out.bmp
+```
