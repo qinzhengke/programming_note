@@ -40,3 +40,42 @@ debug时间，2017-09-25 22:20-22:30
 最后发现是使用Creator构建程序时，没有在pro文件中加入CONFIG+=console导致的，加入之后程序就能正常输出了。
 
 **教训：**使用qtcreator构建工程时一定要清楚常用的几个参数的含义以及应用，pro文件并不是啥都不用写就能正确配置的。
+
+### 处理三通道图像出错？
+2017-09-26, debug时间，10分钟。
+
+下面一段代码将float图像转换成color_map形式，在处理每个通道的数据时，地址没有写对，W和c忘记乘上通道数了。
+```cpp
+int cvt2color(float *img, uint32_t W, uint32_t H, uint8_t **img_out)
+{
+    const uint32_t N = 511;
+    uint8_t color_map[N][3];
+    for(uint32_t i=0; i<N; i++)
+    {
+        color_map[i][0] = i<=255 ? 255-i : 0;
+        color_map[i][1] = i<=255 ? i : 510-i;
+        color_map[i][2] = i<=255 ? 0 : i-255;
+    }
+
+    *img_out = new uint8_t[3*W*H];
+    for(uint32_t r=0; r<H; r++)
+        for(uint32_t c=0; c<W; c++)
+        {
+            int32_t loc = (int32_t)img[r*W+c] + 255;
+            for(int k=0; k<3; k++)
+            {
+                if(loc < 0)
+                    loc = 0;
+                else if(loc > 510)
+                    loc = 510;
+                // (*img_out)[r*W+c+k] = color_map[(uint32_t)loc][k]; // 错误
+                (*img_out)[r*3*W+3*c+k] = color_map[(uint32_t)loc][k]; // 正确
+
+            }
+        }
+
+    return 0;
+}
+```
+
+**教训：**处理多通道图像一定要注意寻址和通道的关系。
