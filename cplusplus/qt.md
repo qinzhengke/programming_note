@@ -3,18 +3,19 @@
 
 
 ___
+
 ## 环境安装
 
-###在Windows下安装Qt
+### 在Windows下安装Qt
 
 1. 安装vs2010 express，完全免费
 2. 安装windows sdk里的windows debug tool，也就是CDB
 
-##报错
+## 报错
 
 这一部分主要记录编译器报错问题。
 
-###没有安装g++
+### 没有安装g++
 
 这个问题产生是因为g++没有在Linux下安装，g++是什么呢？gcc和g++都是编译器，gcc是C语言的编译器，而g++是针对C++的，我装的Ubuntu13.10预置安装了gcc但是没有安装g++，只要把g++安装一下就可以了。
 方法：
@@ -23,7 +24,7 @@ ___
 sudo apt-get install g++
 ```
 
-###cannot find -IGL
+### cannot find -IGL
 
 这个问题是在安装好g++后出现的，查阅了网上的方法，应该是缺少libGL库的问题，这个时候安装一个Qt的库就可以（我觉得很奇怪，为什么一开始安装Qt的时候没有装上呢？）
 安装方法就是
@@ -44,7 +45,7 @@ sudo apt-get install libgl1-mesa-dev
 
 
 
-###转换到COFF期间失败
+### 转换到COFF期间失败
 
 这个问题需要替换cvtres.exe。链接器是通过调用cvtres.exe完成文件向COFF格式转换的，转换失败意味着cvtres.exe出了问题。最可能的情况是计算机里有多个cvtres.exe文件，我们只需要将最新的文件替换掉最老的即可。
 
@@ -68,7 +69,7 @@ sudo apt-get install libgl1-mesa-dev
 
 这部分主要记录一些知识点。
 
-###connect函数的连接方式
+### connect函数的连接方式
 
 connect函数连接方式比较多，而且都很有用，例如立即执行的连接、多线程之间的阻塞连接和非阻塞连接等等。
 
@@ -148,7 +149,7 @@ public slots:
 
 
 
-###信号与槽函数中多个形参变量
+### 信号与槽函数中多个形参变量
 
 Qt中的信号与槽支持多个形参变量一起输入，只要顺序一致就可以。
 
@@ -176,7 +177,7 @@ Qt中的信号与槽支持多个形参变量一起输入，只要顺序一致就
 
 
 
-###QtCreator工程目录不能包含中文
+### QtCreator工程目录不能包含中文
 
 QtCreator的工程目录如果放在包含中文的路径下，编译、链接、运行都没有问题，但是使用cdb.exe调试的时候无法响应断点，也就无法进行调试。另外，在这种情况下，调试启动时间非常的长。
 
@@ -200,7 +201,7 @@ QGroupBox看作是一个控件，和什么QLabel、QLineEidt看作同一类，�
 
 
 
-##奇怪问题
+## 奇怪问题
 
 这一部分主要记录一些很让人摸不着头脑的问题
 
@@ -211,7 +212,7 @@ Qt Creator常常会出现这样的情况：头文件路径明明正确，甚至�
 
 
 
-###Qt 出现pro file could not be parsed。
+### Qt 出现pro file could not be parsed。
 
 首先考虑是不是pro文件语法出错，pro文件语法错误是不会动态提示的，多qmake几下。
 
@@ -224,7 +225,7 @@ QLabel显示图片不完整可能是因为QLabel对象没有加入母QWidget的�
 
 
 
-##专题：Qt多线程的两种使用方式
+## 专题：Qt多线程的两种使用方式
 
 Qt有两种方式实现多线程：第一种建立QThread的子类，第二种是使用QObject :: moveToThread函数实现。
 第一种方法是建立QThread的子类，并且重写run()函数。在定义QThread的子类并重写run()函数后，使用QThread::start()函数就可以启动新线程。这里要注意的是：（1）只有run里面的代码会执行在新的线程里，QThread的构造函数本身还是在原线程中执行；（2） run()函数本身是一个过程代码，并没有事件循环，如果要实现事件循环，例如在run函数中新建一个带有事件循环的QObject子类，则必须要在run函数结束前添加exec()函数。代码1给出了Qt5.4帮助文档中关于QThread子类化使用的代码示例。
@@ -295,7 +296,7 @@ signals:
 ```
 
 
-###在新线程中使用QObject类
+### 在新线程中使用QObject类
 
 上篇笔记给介绍的两种方法均不能在新线程中完整地实现QObject功能，包括构造函数与槽函数。自己造了一个在新线程中使用QObject的方法。
 首先原线程中定义一个QThread子类，在这个子类中定义我们的工作Object类，然后在QThread子类的run函数里new我们的工作Object类，最后在run函数里添加exec()事件循环。在QThread子类new并且start()之后，run函数开始执行，工作类也就完全在新线程里运行。
