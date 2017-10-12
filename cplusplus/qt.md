@@ -302,6 +302,9 @@ signals:
 首先原线程中定义一个QThread子类，在这个子类中定义我们的工作Object类，然后在QThread子类的run函数里new我们的工作Object类，最后在run函数里添加exec()事件循环。在QThread子类new并且start()之后，run函数开始执行，工作类也就完全在新线程里运行。
 
 
+### Qt多线程中的while循环会阻塞槽函数响应？
 
+一个运行很久的循环，或者无限循环会阻塞本线程槽函数对其他线程消息的响应，此时应该在大循环中加入一句processEvent来“手动”处理消息，这样就不会卡死了！
 
-
+### QtCreator 统一修改局部变量
+Ctrl+Shift+R，编辑完后按Esc退出统一修改模式。
