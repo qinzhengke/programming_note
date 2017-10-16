@@ -195,3 +195,13 @@ C语言头文件不管是放在工程内部还是工程外部都可以include，
 printf("%d,%d\n", Q168_FROM_FLOAT(0.35), Q168_FROM_FLOAT(-0.35))
 //结果为 9和-9，正确！
 ```
+
+### printf 中的uint64整数
+使用printf过程中，一定要写对%字符串，之前遇到过一个问题，使用%d来打印一个int64的数是错误的，例如下列代码
+
+```cpp
+uint64_t a = 1000;
+printf("%d\n",a); // 错误
+```
+
+实际上，%u，%ld，%lu都不对，在曾经一个ARM平台编译器上，正确的结果是%llu，因为在该平台上，sizeof(long)=sizeof(int)=4，而uint64_t真正的类型是long long，在不同平台时，要注意类型字节数可能不一样。
