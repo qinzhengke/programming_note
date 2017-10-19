@@ -268,6 +268,6 @@ void my_main()
 变量名每次进入一个子函数就会换一个名字，有时候调试的时候真的不好把握，总得调到definition和callee那里查看两个变量是不是一样的。
 特别是当版本变更时，例如本来函数f处于第二层，由于版本变更，第二层函数被干掉了，只好带着f直接来到一层，然后发现曾经的二层函数给f的实参在一层里名字完全变了，这时候又要回退版本，找曾经的二层函数给f的参数在一层函数到底是哪些。
 
-名字的变更例如，从index到image_index再到frame_index，从image_direction到direction到dir。。。
+名字的变更例如，从index到image_index再到frame_index，从direction到image_direction再到direction。。。
 变量名在进入多级函数时，最好**保持不变**，这样在修改代码的时候不用**频繁去check**形参和实参是否正确。
 变量可见区域的划分目的就是让程序员能在不同的函数用同一个变量名。
