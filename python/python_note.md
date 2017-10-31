@@ -49,3 +49,14 @@ os.system('D:\\softs\\npp.7.4.2.bin.x64\\notepad++.exe ' + sys.argv[1]+'.find_'+
 ```shell
 python D:\tools\np_grep\np_grep.py $(FULL_CURRENT_PATH) qzk
 ```
+
+### 一个很蠢的问题
+
+```python
+a=[1,2,4,8,16,32]
+for i in range(len(a)):
+  a[i] = a[i] - a[0]
+print(a)
+```
+我的本意是把一个数组全都减掉第一个元素，得到所有元素相对于第一个元素的offset，但是发现上述代码出错。
+搞了一下发现自己太蠢了，a[0]元素在第一操作后就变成了0，后面所有操作都是错误的！
