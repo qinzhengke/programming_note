@@ -226,3 +226,9 @@ if(a == -10)
 ### include放在头文件里还是在源文件？
 与接口相关的include放在头文件里，例如头文件中声明的函数中的特殊类型。
 与实现相关的放在源文件里，例如什么stdio.h，math.h等等，隐藏起来。
+
+
+### collect2 error ld returned 1 exit status
+一个很坑爹的报错，即看不出到底是什么意思，也也不告诉你哪一个文件哪一行出错了。
+这个错误这是其他错误的后续，要看看编译的输出结果。
+如果在creator里用makefile编译，要看compile output，而不只是issue。
