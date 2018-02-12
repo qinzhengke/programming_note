@@ -33,6 +33,8 @@ sudo apt-get install g++
 sudo apt-get install libgl1-mesa-dev
 ```
 
+free implementation of the OpenGL API -- GLX development files
+
 ### Could not determin which "make" command to run
 
 这个问题源自于有多个编译器，特别是32位个g++和32位g++，但是却没有指定构建的时候用哪一个。在Tools->option->build&run->Kit中， 指定好编译器即可，如下图所示。
