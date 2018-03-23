@@ -310,3 +310,13 @@ signals:
 
 ### QtCreator 统一修改局部变量
 Ctrl+Shift+R，编辑完后按Esc退出统一修改模式。
+
+### qt程序打包，非常爽快
+2.1 使用 Qt 自带的 windeployqt.exe 寻找依赖文件
+在 cmd 中，运行如下命令：
+
+```shell
+<Qt目录>\Qt5.5.1\5.5\mingw492_32\bin\windeployqt.exe   <*.exe>
+```
+程序会找到该可执行程序所需的所有依赖文件，并集成进该可执行文件所在的目录：
+
