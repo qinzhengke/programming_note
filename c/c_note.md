@@ -305,3 +305,7 @@ MY_TYPE a = { .flag = true, .value = 123, .stuff = 0.456 };
 ```
 这个东西与编译器无关，是C99的标准，gcc想用的话必须开启选项 -std=c99
 
+如果使用qtcreator构建工程，那么默认使用g++编译，然而如果designated initializer语句是在cpp文件里，g++是不支持的，不管CXX_FLAG 是不是加了c++11，或者C_FLAG 加了99，或者加入extern "C"，都不行， extern "C"只是指示c++编译器把函数编成C语言可识别的符号表，并不支持这种赋值语法。
+
+但是我发现了一种方法，就是强行改cpp后缀为c，这样g++就会调用gcc来编译c文件。
+
