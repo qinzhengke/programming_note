@@ -309,3 +309,14 @@ MY_TYPE a = { .flag = true, .value = 123, .stuff = 0.456 };
 
 但是我发现了一种方法，就是强行改cpp后缀为c，这样g++就会调用gcc来编译c文件。
 
+###代码区分不同操作系统
+```cpp
+#ifdef __linux__ 
+    //linux code goes here
+#elif _WIN32
+    // windows code goes here
+#else
+    cout<<"OS not supported!<<endl;
+#endif
+```
+
