@@ -316,7 +316,23 @@ MY_TYPE a = { .flag = true, .value = 123, .stuff = 0.456 };
 #elif _WIN32
     // windows code goes here
 #else
-    cout<<"OS not supported!<<endl;
+    cout<<"OS not supported!"<<endl;
 #endif
 ```
 
+### utf-8文件的bom字节
+很蛋疼，读utf-8文件前面3个字节都不是文件中的内容，而是0xef,0xbb,0xbf，后来一查，发现这是utf-8文件的bom字节，就是byte order mark,
+读utf-8文件时，一定要去掉前面三个字节。
+
+### utf-8文件中的行结尾'\r'
+很蛋疼+1，读utf-8文件的时候，行结尾都是以'\r'结束，
+当文件内容是另一个文件的路径的时候，例如
+```
+/mnt/cc/随便
+```
+其实这一行读出来是这样的
+```
+'/','m',','t','/','c','c','/','随,'便',\r
+```
+我一般喜欢在文件路径后面加上'/'，方便后面读取。
+但是如果在\r后面加上'/'就会搞错。。
