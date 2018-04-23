@@ -336,3 +336,8 @@ MY_TYPE a = { .flag = true, .value = 123, .stuff = 0.456 };
 ```
 我一般喜欢在文件路径后面加上'/'，方便后面读取。
 但是如果在\r后面加上'/'就会搞错。。
+
+### qtcreator中开启gcc的c99支持
+```
+QMAKE_CFLAGS += -std=c99
+```
