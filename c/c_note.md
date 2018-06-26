@@ -341,3 +341,16 @@ MY_TYPE a = { .flag = true, .value = 123, .stuff = 0.456 };
 ```
 QMAKE_CFLAGS += -std=c99
 ```
+
+### printf 如何输出红色字符串？
+```cpp
+void printf_red(const char *cmd, ...)  
+{  
+    printf("\x1B[31m");  //设置输出为红色
+    va_list args;       //定义一个va_list类型的变量，用来储存单个参数  
+    va_start(args,cmd); //使args指向可变参数的第一个参数  
+    vprintf(cmd,args);  //必须用vprintf等带V的  
+    va_end(args);       //结束可变参数的获取  
+    printf("\x1B[0m")   // 回到默认设置
+}  
+```
