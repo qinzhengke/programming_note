@@ -344,6 +344,8 @@ QMAKE_CFLAGS += -std=c99
 
 ### printf 如何输出红色字符串？
 ```cpp
+#include<stdarg.h>
+...
 void printf_red(const char *cmd, ...)  
 {  
     printf("\x1B[31m");  //设置输出为红色
