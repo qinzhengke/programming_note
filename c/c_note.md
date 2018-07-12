@@ -356,3 +356,25 @@ void printf_red(const char *cmd, ...)
     printf("\x1B[0m")   // 回到默认设置
 }  
 ```
+
+
+### 规范打印
+
+```c
+#define PRINT_ERROR(...)    \
+  do{                       \
+    printf("\x1B[41;37m");  \
+    printf("[ERROR]");      \
+    printf("\x1B[0m");      \
+    printf(__VA_ARGS__);    \
+  while(0)
+  
+#define PRINT_INFO(...)     \
+  do{                       \
+    printf("\1xB[42;37m");  \
+    printf("[INFO] ");      \
+    printf(__VA_ARGS__);    \
+  while(0)
+    
+
+```
