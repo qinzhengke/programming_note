@@ -382,3 +382,6 @@ void printf_red(const char *cmd, ...)
     
 
 ```
+
+### 重复定义
+如果发现某个变量明明只有一处，但是编译器老是提出重复定义，就要看看头文件是否没有写#ifndef #define #endif三连。
