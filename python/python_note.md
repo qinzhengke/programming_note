@@ -60,3 +60,28 @@ print(a)
 ```
 我的本意是把一个数组全都减掉第一个元素，得到所有元素相对于第一个元素的offset，但是发现上述代码出错。
 搞了一下发现自己太蠢了，a[0]元素在第一操作后就变成了0，后面所有操作都是错误的！
+
+### python 变量类型
+python有个很不习惯的地方，就是所有函数在声明或者是reference的时候从来不会说明参数和返回值类型，这让人很难把控
+例如下面的教程代码
+
+```python
+import urllib.request
+rp = urllib.request.openurl('http://baidu.com')
+res = rp.read().decode('utf-8')
+print res
+```
+
+这段代码是一个简单的抓取网页教程，但是我就一直搞不懂，rp到底是什么类型，为什么会有read()方法，这个read()方法又是什么鬼，这个read()返回的又是什么类型，为什么会有decode方法，特别蛋疼。
+查官方的reference，只能得到这非常随意的描述，然后那个context一查完全不知道在说什么。。。。
+
+`
+> This function always returns an object which can work as a context manager and has methods such as
+
+网上查了很久，貌似只有很少的人有这样的疑问？
+最终的方式是使用type函数现场查看，即
+
+```python
+print(type(rp))
+print(type(res))
+```
