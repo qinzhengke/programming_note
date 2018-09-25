@@ -368,6 +368,7 @@ void printf_red(const char *cmd, ...)
     printf("[ERROR]");      \
     printf("\x1B[0m");      \
     printf(__VA_ARGS__);    \
+    }                       \
   while(0)
 #endif
   
@@ -377,6 +378,7 @@ void printf_red(const char *cmd, ...)
     printf("\1xB[42;37m");  \
     printf("[INFO] ");      \
     printf(__VA_ARGS__);    \
+    }                       \
   while(0)
 #endif
     
