@@ -7,10 +7,11 @@ aux_source_directories(../.. a)
 add_executable(exe_a ${a})
 ```
 
-### cmake设置编译选项
+### 设置 C99和C++11
 cmake中设置了编译选项
 ```cmake
-set(CMAKE_C_FLAGS "-std=c99")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 ```
 但是对应的Makefile里怎么都找不到对应的改动。
 
